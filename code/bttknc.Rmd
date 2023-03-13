@@ -1,0 +1,58 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Set folder
+```{r}
+setwd('/home/kisejin/Documents/MATH/High Dimensions Statistic')
+
+```
+
+# Import data from file
+```{r}
+data <- data.frame(read.csv('air_poluttion_data.csv'))
+```
+
+# Bai 4.28
+# Plot qqnorm
+```{r}
+plt <- qqnorm(data$Solar.radiation)
+```
+```{r}
+sort_solar <- sort(data$Solar.radiation)
+prob_level <- ((1:length(sort_solar)) - 0.5)/length(sort_solar)
+quant_nnorm <- qnorm(prob_level)
+df <- data.frame(sort_solar,prob_level,quant_nnorm)
+df
+```
+
+```{r echo=TRUE, message=TRUE, warning=TRUE}
+plot(df$quant_nnorm,df$sort_solar)
+```
+$$r_Q = \frac{\sum_{j=1}^n (x_j-\bar x)(q_j-\bar q)}{\sqrt{\sum_{j=1}^n (x_j-\bar x)^2} \sqrt{\sum_{j=1}^n (q_j-\bar q)^2}}$$
+
+## r_Q
+```{r}
+cor(plt$x, plt$y) # 0.969 < 0.9726 : reject hypothesis is feature is normal distribution
+```
+
+# Bai 4.29
+## a. tinh distance
+
+```{r}
+data_1 <- (subset(data, select = c("NO2", "O3")))
+mean_data_1 <- (colMeans(data_1))
+dist1 <- t(data_1 - mean_data_1)
+dist3 <- t(dist1)
+distt <- dist1*solve(var(data_1))*dist3
+```
+
+```{r}
+distt
+```
+
+```
+
+
+
